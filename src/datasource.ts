@@ -7,10 +7,10 @@ import {
   FieldType,
 } from '@grafana/data';
 
-import { MyQuery, MyDataSourceOptions } from './types';
+import { MyQuery, DataSourceOptions } from './types';
 
-export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
-  constructor(instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>) {
+export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
+  constructor(instanceSettings: DataSourceInstanceSettings<DataSourceOptions>) {
     super(instanceSettings);
   }
 
@@ -35,9 +35,13 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
 
   async testDatasource() {
     // Implement a health check for your data source.
+    // return {
+    //   status: 'error',
+    //   message: 'Failed',
+    // };
     return {
-      status: 'success',
-      message: 'Success',
-    };
+        status: 'success',
+        message: 'Success',
+      };
   }
 }
