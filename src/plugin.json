@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "datasource",
+  "name": "Run Reveal",
+  "id": "runreveal-runreveal-datasource",
+  "metrics": true,
+  "info": {
+    "description": "A grafana data source plugin that allows you to access you run reveal logs and write queries for keeping track of specific metrics",
+    "author": {
+      "name": "Run Reveal"
+    },
+    "keywords": ["datasource"],
+    "logos": {
+      "small": "img/logo.png",
+      "large": "img/logo.png"
+    },
+    "links": [],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=9.3.8",
+    "plugins": []
+  }
+}
