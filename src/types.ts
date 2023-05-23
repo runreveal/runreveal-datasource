@@ -13,9 +13,6 @@ export interface DataPoint {
   Time: number;
   Value: number;
 }
-export interface DataSourceResponse {
-  datapoints: DataPoint[];
-}
 
 /**
  * These are options configured for each DataSource instance
@@ -31,4 +28,15 @@ export interface DataSourceOptions extends DataSourceJsonData {
  */
 export interface SecureSessionInfo {
   sessionToken?: string;
+}
+
+export interface DataSourceResponse<T> {
+  success: boolean;
+  error: string;
+  result: T;
+}
+
+export interface APIAccount {
+  id: string;
+  email: string;
 }

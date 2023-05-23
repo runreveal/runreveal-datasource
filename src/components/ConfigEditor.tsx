@@ -33,6 +33,9 @@ export function ConfigEditor(props: Props) {
 
   // Secure field (only sent to the backend)
   const onSessionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let basicAuth = ":" + event.target.value;
+    let encodedAuth = btoa(basicAuth);
+    console.log(encodedAuth)
     onOptionsChange({
       ...options,
       secureJsonData: {
@@ -64,9 +67,9 @@ export function ConfigEditor(props: Props) {
       <InlineField label="API URL" labelWidth={15}>
           <Input
             onChange={onApiUrlChange}
-            value={jsonData.apiURL || 'http://localhost:8000'}
+            value={jsonData.apiURL || 'https://michael.runreveal.com'}
             placeholder="RunReveal API URL"
-            readOnly
+            // readOnly
             width={40}
           />
         </InlineField>
