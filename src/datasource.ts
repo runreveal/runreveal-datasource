@@ -11,21 +11,21 @@ import { MyQuery, DataSourceOptions, DataSourceResponse, APIAccount, DataPoint }
 import { getBackendSrv, getTemplateSrv, isFetchError } from '@grafana/runtime';
 import { firstValueFrom } from 'rxjs';
 import _ from 'lodash';
+import { VariableSupport } from 'variables';
 
 export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
   url?: string;
-  baseurl?: string;
 
   constructor(instanceSettings: DataSourceInstanceSettings<DataSourceOptions>) {
     super(instanceSettings);
-
+    this.variables = new VariableSupport();
     this.url = instanceSettings.url!;
-    this.baseurl = instanceSettings.jsonData.apiURL!;
   }
 
   replaceMacros(from: number, to: number, query: string): string {
       query = query.replace("$__fromTime", `toDateTime(intDiv(${from},1000))`);
       query = query.replace("$__toTime", `toDateTime(intDiv(${to},1000))`);
+      query = query.replace(/\$__timeInterval\((.+)\)/i, "toStartOfInterval($1, INTERVAL (${__interval_ms:raw} / 1000) second)")
 
       return query;
   }
@@ -34,16 +34,13 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
      const { range } = options;
      const from = range!.from.valueOf();
      const to = range!.to.valueOf();
+     console.log(options);
 
-
-    // Return a constant for each query.
     const data = options.targets.map(async (target) => {
       let rawQuery = target.rawQuery || '';
       const templateSrv = getTemplateSrv();
       rawQuery = this.replaceMacros(from, to, rawQuery);
-      rawQuery = templateSrv.replace(rawQuery);
-
-      console.log(rawQuery)
+      rawQuery = templateSrv.replace(rawQuery, options.scopedVars, 'sqlstring');
 
       const promiseResponse = getBackendSrv().fetch<DataSourceResponse<DataPoint>>({
         url: this.url + '/api/logs/query',
@@ -54,41 +51,33 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
       });
       const response = await firstValueFrom(promiseResponse);
       const datapoints = response.data.result;
-      const timestamps: number[] = [];
-      const values: number[] = [];
-
-
+      const dataFrame: MutableDataFrame = new MutableDataFrame({refId: target.refId, fields: []});
       
       datapoints.columns.forEach((val, idx) => {
-        if (val == "Time") {
-          datapoints.values[idx].forEach(time => {
-            timestamps.push(Date.parse(time))
-          });
+        let valtype: FieldType;
+        switch (typeof datapoints.values[idx][0]) {
+          case 'string':
+            if (val === "time") {
+              valtype = FieldType.time;
+            } else if (val === "geo") {
+              valtype = FieldType.geo;
+            } else {
+              valtype = FieldType.string;
+            }
+            break;
+          case 'number':
+            valtype = FieldType.number;
+            break;
+          case 'boolean':
+            valtype = FieldType.boolean; 
+            break;
+          default:
+            valtype = FieldType.other;
         }
-        if (val == "Value") {
-          datapoints.values[idx].forEach(value => {
-            values.push(value)
-          });
-        }
+        dataFrame.addField({name: val, type: valtype, values: datapoints.values[idx]})
       });
 
-
-
-        // if (datapoints[i].Time === undefined) {
-        //   throw new Error(`Data point ${i} does not contain "Time" property`);
-        // }
-        // if (datapoints[i].Value === undefined) {
-        //   throw new Error(`Data point ${i} does not contain "Value" property`);
-        // }
-
-
-      return new MutableDataFrame({
-        refId: target.refId,
-        fields: [
-          { name: 'Time', type: FieldType.time, values: timestamps },
-          { name: 'Value', type: FieldType.number, values: values },
-        ],
-      });
+      return dataFrame;
     });
 
     return Promise.all(data).then((data) => ({ data }));
@@ -96,7 +85,6 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
 
 
   async testDatasource() {
-    console.log(this.baseurl);
 
     try {
       const response = await firstValueFrom(getBackendSrv().fetch<DataSourceResponse<APIAccount>>({
@@ -104,12 +92,12 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
         method: 'GET',
       }));
     
-      if (response.status != 200) {
+      if (response.status !== 200) {
         return {
           status: 'fail',
           message: 'Request to RunReveal failed with: ' + response.statusText
         }
-      } else if (response.status == 200 && !response.data.success) {
+      } else if (response.status === 200 && !response.data.success) {
         return {
           status: 'fail',
           message: 'RunReveal datasource test failed: ' + response.data.error

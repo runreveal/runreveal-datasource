@@ -4,11 +4,10 @@ export interface MyQuery extends DataQuery {
   rawQuery: string;
 }
 
-
 export interface DataPoint {
   result_count: number,
   columns: string[];
-  values: [][];
+  values: any[][]
 }
 
 /**
@@ -17,7 +16,6 @@ export interface DataPoint {
 export interface DataSourceOptions extends DataSourceJsonData {
   workspaceId?: string;
   apiURL? : string;
-  defaultTimeField?: string
 }
 
 /**

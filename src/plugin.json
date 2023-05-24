@@ -2,19 +2,31 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
   "name": "RunReveal",
-  "id": "runreveal-runreveal-datasource",
+  "id": "runreveal-datasource",
   "metrics": true,
+  "category": "cloud",
   "info": {
-    "description": "A grafana data source plugin that allows you to access you RunReveal logs and write queries for keeping track of specific metrics",
+    "description": "RunReveal datasource plugin for Grafana.",
     "author": {
-      "name": "RunReveal"
+      "name": "RunReveal",
+      "email": "contact@runreveal.com",
+      "url": "https://runreveal.com"
     },
-    "keywords": ["datasource"],
+    "keywords": ["datasource","security"],
     "logos": {
-      "small": "img/logo.png",
-      "large": "img/logo.png"
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
     },
-    "links": [],
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://runreveal.com"
+      },
+      {
+        "name": "RunReveal Docs",
+        "url": "https://docs.runreveal.com"
+      }
+    ],
     "screenshots": [],
     "version": "%VERSION%",
     "updated": "%TODAY%"
@@ -26,11 +38,15 @@
   "routes": [
     {
       "path": "api",
-      "url": "{{ .JsonData.apiURL }}",
+      "url": "https://api.runreveal.com",
       "headers": [
         {
           "name": "Authorization",
           "content": "Basic {{ .SecureJsonData.sessionToken }}"
+        },
+        {
+          "name": "x-source",
+          "content": "grafana"
         }
       ],
       "urlParams": [

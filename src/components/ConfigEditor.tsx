@@ -15,14 +15,6 @@ export function ConfigEditor(props: Props) {
     onOptionsChange({ ...options, jsonData });
   };
 
-  const onTimeFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const jsonData = {
-      ...options.jsonData,
-      defaultTimeField: event.target.value,
-    };
-    onOptionsChange({ ...options, jsonData });
-  };
-
   const onApiUrlChange = (event: ChangeEvent<HTMLInputElement>) => {
     const jsonData = {
       ...options.jsonData,
@@ -67,9 +59,9 @@ export function ConfigEditor(props: Props) {
       <InlineField label="API URL" labelWidth={15}>
           <Input
             onChange={onApiUrlChange}
-            value={jsonData.apiURL || 'https://michael.runreveal.com'}
+            value={jsonData.apiURL || 'https://api.runreveal.com'}
             placeholder="RunReveal API URL"
-            // readOnly
+            readOnly
             width={40}
           />
         </InlineField>
@@ -94,14 +86,6 @@ export function ConfigEditor(props: Props) {
             value={jsonData.workspaceId || ''}
             placeholder="Workspace Id for events"
             width={40}
-          />
-        </InlineField>
-
-        <InlineField label="Time Field" tooltip="Default time field used when interpolate the $__timeFilter().">
-          <Input
-            onChange={onTimeFieldChange}
-            placeholder="eventTime"
-            value={jsonData?.defaultTimeField ?? 'eventTime'}
           />
         </InlineField>
       </FieldSet>
