@@ -10,7 +10,7 @@ locally, please checkout the [Plugin installation docs](https://grafana.com/docs
 In order to use this data source you must have an account with *[RunReveal](https://runreveal.com)* that has a valid workspace.
 To setup an account and get authenticated follow the [getting started](https://docs.runreveal.com/getting-started/guides/quickstart) guide in the docs.
 
-Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need your session token and the workspace id of the workspace that you want to run queries against. To aquire this info you can use the *RunReveal* cli and run the following command:
+Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need your session token and the workspace id of the workspace that you want to run queries against. To acquire this info you can use the *RunReveal* cli and run the following command:
 
 ```bash
 runreveal config show --grafana
@@ -40,7 +40,7 @@ ORDER BY time
 
 #### Multi-line time series
 
-Grafana supports displaying multiple metrics on a single query. By default the query will display a seperate metric for all numeric fields.
+Grafana supports displaying multiple metrics on a single query. By default the query will display a separate metric for all numeric fields.
 
 If you would like to split the data based on the values of a column you need to perform a transform on the query in Grafana.
 When adding a transform choose the [Partition by values](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/?utm_source=grafana#partition-by-values) and select the columns that the data will be split on.
@@ -51,7 +51,7 @@ When adding a transform choose the [Partition by values](https://grafana.com/doc
 
 *RunReveal* also offers some secondary tables which split the `rawLog` column into a normalized data structure.
 
-In order to view which tables are accessable to your *RunReveal* account and which columns are available to select, you can run the following queries on the `Explore` tab in Grafana.
+In order to view which tables are accessible to your *RunReveal* account and which columns are available to select, you can run the following queries on the `Explore` tab in Grafana.
 
 ````sql
 show tables
