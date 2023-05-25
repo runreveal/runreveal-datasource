@@ -10,7 +10,7 @@ locally, please checkout the [Plugin installation docs](https://grafana.com/docs
 In order to use this data source you must have an account with *[RunReveal](https://runreveal.com)* that has a valid workspace.
 To setup an account and get authenticated follow the [getting started](https://docs.runreveal.com/getting-started/guides/quickstart) guide in the docs.
 
-Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need your session token and the workspace id that you want to view logs for. To aquire this info you can use the *RunReveal* cli and run the following command:
+Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need your session token and the workspace id of the workspace that you want to run queries against. To aquire this info you can use the *RunReveal* cli and run the following command:
 
 ```bash
 runreveal config show --grafana
@@ -28,11 +28,19 @@ database and must be valid sql based on their syntax.
 
 ### Time series
 
-Time series visualizations are selectable after adding a `datetime` field with the alias of `time`. Most queries will use the `eventTime` field when selecting time series data. All other fields will be treated as a value column based on the data type of the data returned.
+Time series visualizations are selectable after adding a `datetime` field with the alias of `time`. Most queries will use the `eventTime` field when selecting time series data. All other fields will be treated as a value column based on the data type of the data returned. Here is an example query that could be written to get the number of readonly events per time interval.
+
+```sql
+SELECT $__timeInterval(eventTime) as time, readOnly, COUNT(*) as counts 
+FROM runreveal_logs 
+WHERE eventTime between $__fromTime and $__toTime 
+GROUP by time, readOnly
+ORDER BY time 
+```
 
 #### Multi-line time series
 
-Grafana supports displaying multiple metrics on a single query. By default the SQL query will display a seperate metric for all numeric fields.
+Grafana supports displaying multiple metrics on a single query. By default the query will display a seperate metric for all numeric fields.
 
 If you would like to split the data based on the values of a column you need to perform a transform on the query in Grafana.
 When adding a transform choose the [Partition by values](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/?utm_source=grafana#partition-by-values) and select the columns that the data will be split on.

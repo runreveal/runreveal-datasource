@@ -23,9 +23,9 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
   }
 
   replaceMacros(from: number, to: number, query: string): string {
-      query = query.replace("$__fromTime", `toDateTime(intDiv(${from},1000))`);
-      query = query.replace("$__toTime", `toDateTime(intDiv(${to},1000))`);
-      query = query.replace(/\$__timeInterval\((.+)\)/i, "toStartOfInterval($1, INTERVAL (${__interval_ms:raw} / 1000) second)")
+      query = query.replace(/\$__fromTime/g, `toDateTime(intDiv(${from},1000))`);
+      query = query.replace(/\$__toTime/g, `toDateTime(intDiv(${to},1000))`);
+      query = query.replace(/\$__timeInterval\((.+?)\)/g, "toStartOfInterval($1, INTERVAL intDiv(${__interval_ms:raw},1000) second)")
 
       return query;
   }
