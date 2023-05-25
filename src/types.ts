@@ -15,7 +15,7 @@ export interface DataPoint {
  */
 export interface DataSourceOptions extends DataSourceJsonData {
   workspaceId?: string;
-  apiURL? : string;
+  apiURL?: string;
 }
 
 /**
