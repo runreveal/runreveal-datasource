@@ -1,7 +1,7 @@
 {
   "name": "run-reveal",
-  "version": "0.0.1",
-  "description": "A grafana data source plugin that allows you to access you run reveal logs and write queries for keeping track of specific metrics",
+  "version": "0.1.0",
+  "description": "A grafana data source plugin that allows you to access you RunReveal logs and write queries for keeping track of specific metrics",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
