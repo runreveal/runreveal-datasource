@@ -56,7 +56,7 @@ In order to view which tables are accessible to your *RunReveal* account and whi
 ````sql
 show tables
 
-SELECT * FROM [table_name] LIMIT 5
+DESCRIBE [table_name]
 ````
 
 ### Macros
