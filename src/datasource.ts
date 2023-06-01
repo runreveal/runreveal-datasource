@@ -34,7 +34,6 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
      const { range } = options;
      const from = range!.from.valueOf();
      const to = range!.to.valueOf();
-     console.log(options);
 
     const data = options.targets.map(async (target) => {
       let rawQuery = target.rawQuery || '';
@@ -55,7 +54,10 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
       
       datapoints.columns.forEach((val, idx) => {
         let valtype: FieldType;
-        switch (typeof datapoints.values[idx][0]) {
+        if (datapoints.values[idx] === null || datapoints.values[idx].length === 0) {
+          valtype = FieldType.other;
+        } else {
+          switch (typeof datapoints.values[idx][0]) {
           case 'string':
             if (val === "time") {
               valtype = FieldType.time;
@@ -73,8 +75,9 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
             break;
           default:
             valtype = FieldType.other;
-        }
-        dataFrame.addField({name: val, type: valtype, values: datapoints.values[idx]})
+        }}
+
+        dataFrame.addField({name: val, type: valtype, values: (datapoints.values[idx] === null ? [] : datapoints.values[idx])})
       });
 
       return dataFrame;
