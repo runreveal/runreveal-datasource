@@ -83,8 +83,8 @@ jobs:
       - name: Read changelog
         id: changelog
         run: |
-          awk '/^## / {s++} s == 1 {print}' CHANGELOG.md > release_notes.md
-          echo "path=release_notes.md" >> $GITHUB_OUTPUT
+          echo "## What's Changed\n\n" > ${{ github.workspace }}-release_notes.md
+          awk '/^## / {s++} s == 1 {print}' CHANGELOG.md | awk '(NR>1)' > ${{ github.workspace }}-release_notes.md
 
       - name: Check package version
         run: if [ "v${{ steps.metadata.outputs.plugin-version }}" != "${{ steps.metadata.outputs.github-tag }}" ]; then printf "\033[0;31mPlugin version doesn't match tag name\033[0m\n"; exit 1; fi
@@ -114,5 +114,5 @@ jobs:
           files: |
             ./${{ steps.metadata.outputs.archive }}
             ./${{ steps.metadata.outputs.archive-checksum }}
-          body_path: ${{ steps.metadata.outputs.path }}
+          body_path: ${{ github.workspace }}-release_notes.md
           
