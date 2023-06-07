@@ -5,8 +5,6 @@ services:
     container_name: 'runreveal-runreveal-datasource'
     build:
       context: ./.config
-      args:
-        grafana_version: ${GRAFANA_VERSION:-9.3.8}
     ports:
       - 3000:3000/tcp
     volumes:
