@@ -30,15 +30,15 @@
     "screenshots": [
       {
         "name": "Setup",
-        "path": "./img/DataSourceSetup.png"
+        "path": "img/DataSourceSetup.png"
       },
       {
         "name": "Panel Example",
-        "path": "./img/EventInfo.png"
+        "path": "img/EventInfo.png"
       },
       {
         "name": "Query Example",
-        "path": "./img/Query.png"
+        "path": "img/Query.png"
       }
     ],
     "version": "%VERSION%",

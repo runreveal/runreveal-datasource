@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.3 (Unreleased)
+## 0.1.4 (Unreleased)
 
 * Fix error when no records returned from query
 * Update readme
