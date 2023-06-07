@@ -27,7 +27,20 @@
         "url": "https://docs.runreveal.com"
       }
     ],
-    "screenshots": [],
+    "screenshots": [
+      {
+        "name": "Setup",
+        "path": "./img/DataSourceSetup.png"
+      },
+      {
+        "name": "Panel Example",
+        "path": "./img/EventInfo.png"
+      },
+      {
+        "name": "Query Example",
+        "path": "./img/Query.png"
+      }
+    ],
     "version": "%VERSION%",
     "updated": "%TODAY%"
   },
