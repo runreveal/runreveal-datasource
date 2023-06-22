@@ -56,7 +56,7 @@ export function ConfigEditor(props: Props) {
   return (
     <>
     <FieldSet label="API Settings">
-      <InlineField label="API URL" labelWidth={15}>
+      <InlineField label="API URL" labelWidth={20}>
           <Input
             onChange={onApiUrlChange}
             value={jsonData.apiURL || 'https://api.runreveal.com'}
@@ -66,8 +66,8 @@ export function ConfigEditor(props: Props) {
           />
         </InlineField>
 
-        <InlineField label="Session Token" labelWidth={15}
-            tooltip="Session Token used to make calls to your RunReveal account">
+        <InlineField label="Session Token" labelWidth={20}
+            tooltip="Session Token is your account authentication token, calls made to RunReveal will be made using the account this was generated from">
           <SecretInput
             onChange={onSessionChange}
             onReset={onResetSessionToken}
@@ -80,7 +80,8 @@ export function ConfigEditor(props: Props) {
       </FieldSet>
 
       <FieldSet label="General">
-        <InlineField label="Workspace Id" labelWidth={12}>
+        <InlineField label="Workspace ID" labelWidth={20}
+          tooltip="The workspace that queries will be made against">
           <Input
             onChange={onWorkspaceIdChange}
             value={jsonData.workspaceId || ''}

@@ -116,10 +116,10 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
       if (_.isString(err)) {
         message = err;
       } else if (isFetchError(err)) {
-        message = 'Fetch error: ' + (err.statusText ? err.statusText : "Error connecting to RunReveal.");
-        if (err.data && err.data.error && err.data.error.code) {
-          message += ': ' + err.data.error.code + '. ' + err.data.error.message;
-        }
+        message = err.data.error + ": " + err.data.message
+      }
+      else {
+        message += "An unknown error occurred authenticating to the RunReveal system"
       }
       return {
         status: 'error',
