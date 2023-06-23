@@ -25,9 +25,6 @@ export function ConfigEditor(props: Props) {
 
   // Secure field (only sent to the backend)
   const onSessionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    let basicAuth = ":" + event.target.value;
-    let encodedAuth = btoa(basicAuth);
-    console.log(encodedAuth)
     onOptionsChange({
       ...options,
       secureJsonData: {
