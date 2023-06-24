@@ -45,7 +45,8 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
         url: this.url + '/api/logs/query',
         method: 'POST',
         data: {
-          query: rawQuery
+          query: rawQuery,
+          source: "grafana-plugin"
         }
       });
       const response = await firstValueFrom(promiseResponse);
