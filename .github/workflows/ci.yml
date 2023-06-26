@@ -88,3 +88,17 @@ jobs:
           name: cypress-videos
           path: cypress/videos
           retention-days: 5
+
+  tag: 
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    steps:
+      - run: echo "previous_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '')" >> $GITHUB_ENV
+      - name: Create Tag
+        id: create_tag
+        uses: jaywcjlove/create-tag-action@main
+        if: env.previous_tag
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          package-path: ./package.json

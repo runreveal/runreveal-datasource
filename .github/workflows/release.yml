@@ -65,7 +65,6 @@ jobs:
         id: metadata
         run: |
           sudo apt-get install jq
-
           export GRAFANA_PLUGIN_ID=$(cat dist/plugin.json | jq -r .id)
           export GRAFANA_PLUGIN_VERSION=$(cat dist/plugin.json | jq -r .info.version)
           export GRAFANA_PLUGIN_TYPE=$(cat dist/plugin.json | jq -r .type)
@@ -80,11 +79,11 @@ jobs:
 
           echo "github-tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
-      - name: Read changelog
-        id: changelog
-        run: |
-          echo "## What's Changed\n\n" > ${{ github.workspace }}-release_notes.md
-          awk '/^## / {s++} s == 1 {print}' CHANGELOG.md | awk '(NR>1)' > ${{ github.workspace }}-release_notes.md
+      # - name: Read changelog
+      #   id: changelog
+      #   run: |
+      #     echo "## What's Changed\n\n" > ${{ github.workspace }}-release_notes.md
+      #     awk '/^## / {s++} s == 1 {print}' CHANGELOG.md | awk '(NR>1)' > ${{ github.workspace }}-release_notes.md
 
       - name: Check package version
         run: if [ "v${{ steps.metadata.outputs.plugin-version }}" != "${{ steps.metadata.outputs.github-tag }}" ]; then printf "\033[0;31mPlugin version doesn't match tag name\033[0m\n"; exit 1; fi
@@ -108,11 +107,9 @@ jobs:
       - name: Create Github release
         uses: softprops/action-gh-release@v1
         with:
-          draft: true
-          prerelease: true
           generate_release_notes: true
           files: |
             ./${{ steps.metadata.outputs.archive }}
             ./${{ steps.metadata.outputs.archive-checksum }}
-          body_path: ${{ github.workspace }}-release_notes.md
+          # body_path: ${{ github.workspace }}-release_notes.md
           

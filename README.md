@@ -102,9 +102,10 @@ If the plugin is using the github actions supplied with `@grafana/create-plugin`
 
 To trigger the workflow we need to push a version tag to github. This can be achieved with the following steps:
 
-1. Run `npm version <major|minor|patch>`
-2. Run `git push origin main --follow-tags`
-
+1. Create a new branch for the release.
+2. Update any files needed.
+3. Bump version number in the `package.json` file.
+4. Once the PR is merged, the CI pipeline will auto tag the repo and a release will be started.
 
 ## Learn more
 
