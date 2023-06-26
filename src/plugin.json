@@ -56,10 +56,6 @@
         {
           "name": "Authorization",
           "content": "Basic {{ .SecureJsonData.sessionToken }}"
-        },
-        {
-          "name": "x-source",
-          "content": "grafana"
         }
       ],
       "urlParams": [
