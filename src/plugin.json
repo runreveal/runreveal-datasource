@@ -5,6 +5,12 @@
   "id": "runreveal-runreveal-datasource",
   "metrics": true,
   "category": "cloud",
+  "includes": [
+    {
+      "type": "dashboard",
+      "path": "dashboards/runreveal-default-dashboard.json"
+    }
+  ],
   "info": {
     "description": "RunReveal datasource plugin for Grafana.",
     "author": {
