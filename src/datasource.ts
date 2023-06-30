@@ -51,7 +51,7 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
       });
       const response = await firstValueFrom(promiseResponse);
       const datapoints = response.data.result;
-      if (datapoints.error != undefined && datapoints.error != '') {
+      if (datapoints.error !== undefined && datapoints.error !== '') {
         throw new Error(datapoints.error);
     }
     
