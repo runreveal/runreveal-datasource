@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+* Include RunReveal Default Dashboard with plugin
+* Add proper error handling to query editor
+* Add annotation query support
+
 ## 0.2.0
 
 * Fix config page UI labels

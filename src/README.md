@@ -18,6 +18,11 @@ runreveal config show --grafana
 
 Use the printed values to fill in the configuration fields for the data source.
 
+## Quick Start
+
+The plugin includes a built in dashboard that can be imported to your Grafana environment. 
+
+When configuring the datasource, select the `Dashboards` tab to view the available dashboards and import them.
 
 ## Building Queries
 
