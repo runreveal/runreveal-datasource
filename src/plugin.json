@@ -40,6 +40,10 @@
         "path": "img/DataSourceSetup.png"
       },
       {
+        "name": "Dashboard Import",
+        "path": "img/DashboardImport.png"
+      },
+      {
         "name": "Panel Example",
         "path": "img/EventInfo.png"
       },
