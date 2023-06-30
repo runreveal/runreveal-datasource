@@ -5,9 +5,11 @@ export interface MyQuery extends DataQuery {
 }
 
 export interface DataPoint {
-  result_count: number,
+  resultCount: number;
   columns: string[];
-  values: any[][]
+  values: any[][];
+  error: string;
+  query: string;
 }
 
 /**

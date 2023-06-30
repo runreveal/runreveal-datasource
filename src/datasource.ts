@@ -51,6 +51,10 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
       });
       const response = await firstValueFrom(promiseResponse);
       const datapoints = response.data.result;
+      if (datapoints.error !== undefined && datapoints.error !== '') {
+        throw new Error(datapoints.error);
+    }
+    
       const dataFrame: MutableDataFrame = new MutableDataFrame({refId: target.refId, fields: []});
       
       datapoints.columns.forEach((val, idx) => {
