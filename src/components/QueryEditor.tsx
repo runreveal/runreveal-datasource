@@ -2,7 +2,8 @@ import React from 'react';
 import { QueryEditorProps } from '@grafana/data';
 import { DataSource } from '../datasource';
 import { DataSourceOptions, MyQuery } from '../types';
-import { CodeEditor } from '@grafana/ui';
+import { Button, CodeEditor } from '@grafana/ui';
+import { styles } from 'styles';
 
 type Props = QueryEditorProps<DataSource, MyQuery, DataSourceOptions>;
 
@@ -21,6 +22,9 @@ export function QueryEditor({ query, onChange, onRunQuery }: Props) {
 
   return (
     <>
+    <div className={'gf-form ' + styles.QueryEditor.queryType }>
+      <Button onClick={() => onRunQuery()}>Run Query</Button>
+      </div>
       <CodeEditor
           height="200px"
           showLineNumbers={true}

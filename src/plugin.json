@@ -11,6 +11,7 @@
       "path": "dashboards/runreveal-default-dashboard.json"
     }
   ],
+  "annotations": true,
   "info": {
     "description": "RunReveal datasource plugin for Grafana.",
     "author": {
