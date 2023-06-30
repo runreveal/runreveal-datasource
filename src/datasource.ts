@@ -20,6 +20,7 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
     super(instanceSettings);
     this.variables = new VariableSupport();
     this.url = instanceSettings.url!;
+    this.annotations = {}
   }
 
   replaceMacros(from: number, to: number, query: string): string {

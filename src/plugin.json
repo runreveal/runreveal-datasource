@@ -5,6 +5,7 @@
   "id": "runreveal-runreveal-datasource",
   "metrics": true,
   "category": "cloud",
+  "annotations": true,
   "info": {
     "description": "RunReveal datasource plugin for Grafana.",
     "author": {
