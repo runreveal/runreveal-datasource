@@ -63,14 +63,14 @@ export function ConfigEditor(props: Props) {
           />
         </InlineField>
 
-        <InlineField label="Session Token" labelWidth={20}
-            tooltip="Session Token is your account authentication token, calls made to RunReveal will be made using the account this was generated from">
+        <InlineField label="API Token" labelWidth={20}
+            tooltip="API Token is your a workspace account token that allows grafana to authenticate to your workspace.">
           <SecretInput
             onChange={onSessionChange}
             onReset={onResetSessionToken}
             isConfigured={(secureJsonFields && secureJsonFields.sessionToken) as boolean}
             value={secureJsonData.sessionToken || ''}
-            placeholder="RunReveal session token"
+            placeholder="RunReveal api token"
             width={40}
           />
         </InlineField>

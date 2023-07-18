@@ -10,11 +10,12 @@ locally, please checkout the [Plugin installation docs](https://grafana.com/docs
 In order to use this data source you must have an account with *[RunReveal](https://runreveal.com)* that has a valid workspace.
 To setup an account and get authenticated follow the [getting started](https://docs.runreveal.com/getting-started/guides/quickstart) guide in the docs.
 
-Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need your session token and the workspace id of the workspace that you want to run queries against. To acquire this info you can use the *RunReveal* cli and run the following command:
+Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need either a session token for your account or an api token. To acquire this info you can use the *RunReveal* cli and run the following command:
 
 ```bash
 runreveal config show --grafana
 ```
+Or you can create a new API Token and get your workspace id from the RunReveal ui at [https://runreveal.com/dash/account](https://runreveal.com/dash/account)
 
 Use the printed values to fill in the configuration fields for the data source.
 

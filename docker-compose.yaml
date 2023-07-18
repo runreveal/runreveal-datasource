@@ -6,7 +6,7 @@ services:
     build:
       context: ./.config
     ports:
-      - 3000:3000/tcp
+      - 3001:3000/tcp
     volumes:
       - ./dist:/var/lib/grafana/plugins/runreveal-runreveal-datasource
       - ./provisioning:/etc/grafana/provisioning
