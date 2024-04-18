@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+* Update auth flow to work with new RunReveal token format
+* Update included dashboard to look at new tables
+
 ## 0.2.1
 
 * Include RunReveal Default Dashboard with plugin
