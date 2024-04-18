@@ -19,7 +19,10 @@
       "email": "contact@runreveal.com",
       "url": "https://runreveal.com"
     },
-    "keywords": ["datasource","security"],
+    "keywords": [
+      "datasource",
+      "security"
+    ],
     "logos": {
       "small": "img/logo.svg",
       "large": "img/logo.svg"
@@ -62,7 +65,7 @@
   "routes": [
     {
       "path": "api",
-      "url": "https://api.runreveal.com",
+      "url": "https://www-api.runreveal.com",
       "headers": [
         {
           "name": "Authorization",

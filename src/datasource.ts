@@ -24,17 +24,17 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
   }
 
   replaceMacros(from: number, to: number, query: string): string {
-      query = query.replace(/\$__fromTime/g, `toDateTime(intDiv(${from},1000))`);
-      query = query.replace(/\$__toTime/g, `toDateTime(intDiv(${to},1000))`);
-      query = query.replace(/\$__timeInterval\((.+?)\)/g, "toStartOfInterval($1, INTERVAL intDiv(${__interval_ms:raw},1000) second)")
+    query = query.replace(/\$__fromTime/g, `toDateTime(intDiv(${from},1000))`);
+    query = query.replace(/\$__toTime/g, `toDateTime(intDiv(${to},1000))`);
+    query = query.replace(/\$__timeInterval\((.+?)\)/g, "toStartOfInterval($1, INTERVAL intDiv(${__interval_ms:raw},1000) second)")
 
-      return query;
+    return query;
   }
 
   async query(options: DataQueryRequest<MyQuery>): Promise<DataQueryResponse> {
-     const { range } = options;
-     const from = range!.from.valueOf();
-     const to = range!.to.valueOf();
+    const { range } = options;
+    const from = range!.from.valueOf();
+    const to = range!.to.valueOf();
 
     const data = options.targets.map(async (target) => {
       let rawQuery = target.rawQuery || '';
@@ -54,36 +54,37 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
       const datapoints = response.data.result;
       if (datapoints.error !== undefined && datapoints.error !== '') {
         throw new Error(datapoints.error);
-    }
-    
-      const dataFrame: MutableDataFrame = new MutableDataFrame({refId: target.refId, fields: []});
-      
+      }
+
+      const dataFrame: MutableDataFrame = new MutableDataFrame({ refId: target.refId, fields: [] });
+
       datapoints.columns.forEach((val, idx) => {
         let valtype: FieldType;
         if (datapoints.values[idx] === null || datapoints.values[idx].length === 0) {
           valtype = FieldType.other;
         } else {
           switch (typeof datapoints.values[idx][0]) {
-          case 'string':
-            if (val === "time") {
-              valtype = FieldType.time;
-            } else if (val === "geo") {
-              valtype = FieldType.geo;
-            } else {
-              valtype = FieldType.string;
-            }
-            break;
-          case 'number':
-            valtype = FieldType.number;
-            break;
-          case 'boolean':
-            valtype = FieldType.boolean; 
-            break;
-          default:
-            valtype = FieldType.other;
-        }}
+            case 'string':
+              if (val === "time") {
+                valtype = FieldType.time;
+              } else if (val === "geo") {
+                valtype = FieldType.geo;
+              } else {
+                valtype = FieldType.string;
+              }
+              break;
+            case 'number':
+              valtype = FieldType.number;
+              break;
+            case 'boolean':
+              valtype = FieldType.boolean;
+              break;
+            default:
+              valtype = FieldType.other;
+          }
+        }
 
-        dataFrame.addField({name: val, type: valtype, values: (datapoints.values[idx] === null ? [] : datapoints.values[idx])})
+        dataFrame.addField({ name: val, type: valtype, values: (datapoints.values[idx] === null ? [] : datapoints.values[idx]) })
       });
 
       return dataFrame;
@@ -97,10 +98,10 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
 
     try {
       const response = await firstValueFrom(getBackendSrv().fetch<DataSourceResponse<APIAccount>>({
-        url: this.url + '/api/account',
+        url: this.url + '/api/workspace/roles/list',
         method: 'GET',
       }));
-    
+
       if (response.status !== 200) {
         return {
           status: 'fail',
@@ -113,10 +114,10 @@ export class DataSource extends DataSourceApi<MyQuery, DataSourceOptions> {
         }
       } else {
         return {
-            status: 'success',
-            message: 'Success',
-          };
-        }
+          status: 'success',
+          message: 'Success',
+        };
+      }
     } catch (err) {
       let message = '';
       if (_.isString(err)) {
