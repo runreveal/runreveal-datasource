@@ -97,7 +97,7 @@ jobs:
           echo "checksum=$(cat ./${{ steps.metadata.outputs.archive-checksum }} | cut -d' ' -f1)" >> $GITHUB_OUTPUT
 
       - name: Validate plugin
-        uses: grafana/plugin-validator
+        uses: grafana/plugin-validator@v0.12.1
         with:
           package: ${{ steps.metadata.outputs.archive }}
 
