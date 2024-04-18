@@ -167,7 +167,7 @@
             "type": "runreveal-runreveal-datasource",
             "uid": "${DS_RUNREVEAL}"
           },
-          "rawQuery": "SELECT count(*)/(10*60) FROM \"runreveal_logs\" WHERE   ( receivedAt BETWEEN subtractMinutes(now(),10) AND now() )",
+          "rawQuery": "SELECT count(*)/(10*60) FROM logs WHERE   ( receivedAt BETWEEN subtractMinutes(now(),10) AND now() )",
           "refId": "A"
         },
         {
@@ -176,7 +176,7 @@
             "uid": "${DS_RUNREVEAL}"
           },
           "hide": false,
-          "rawQuery": "SELECT count(*)/(24*60*60) Today FROM default.\"runreveal_logs\" WHERE   ( receivedAt BETWEEN subtractDays(now(),1) AND now() )",
+          "rawQuery": "SELECT count(*)/(24*60*60) Today FROM logs WHERE   ( receivedAt BETWEEN subtractDays(now(),1) AND now() )",
           "refId": "B"
         }
       ],
@@ -456,139 +456,12 @@
             "type": "runreveal-runreveal-datasource",
             "uid": "${DS_RUNREVEAL}"
           },
-          "rawQuery": "SELECT $__timeInterval(receivedAt) as time,  count(*) FROM default.\"runreveal_logs\" WHERE    ( receivedAt  >= $__fromTime AND receivedAt <= $__toTime ) GROUP BY time ORDER BY time ASC",
+          "rawQuery": "SELECT $__timeInterval(receivedAt) as time,  count(*) FROM logs WHERE    ( receivedAt  >= $__fromTime AND receivedAt <= $__toTime ) GROUP BY time ORDER BY time ASC",
           "refId": "A"
         }
       ],
       "title": "RunReveal Logs over 5 minute windows",
       "transformations": [],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "runreveal-runreveal-datasource",
-        "uid": "${DS_RUNREVEAL}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 8,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "displayName": "Time",
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 50
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 24,
-        "x": 0,
-        "y": 15
-      },
-      "id": 8,
-      "interval": "5m",
-      "maxDataPoints": 100000,
-      "options": {
-        "legend": {
-          "calcs": [
-            "sum"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.0.1-cloud.3.f250259e",
-      "targets": [
-        {
-          "datasource": {
-            "type": "runreveal-runreveal-datasource",
-            "uid": "${DS_RUNREVEAL}"
-          },
-          "rawQuery": "select $__timeInterval(triggeredAt) time,\n       triggerName\n       , count(*) val from event_trigger_history\nwhere triggeredAt BETWEEN $__fromTime AND $__toTime\nGROUP BY triggerName, time\nORDER BY time",
-          "refId": "A"
-        }
-      ],
-      "title": "Trigger Fires Every 5m",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "time": false
-            },
-            "indexByName": {},
-            "renameByName": {
-              "time": ""
-            }
-          }
-        },
-        {
-          "id": "partitionByValues",
-          "options": {
-            "fields": [
-              "triggerName"
-            ]
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "val (.*)",
-            "renamePattern": "$1"
-          }
-        }
-      ],
       "type": "timeseries"
     },
     {

@@ -3,7 +3,7 @@ import { FieldSet, InlineField, Input, SecretInput } from '@grafana/ui';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { DataSourceOptions, SecureSessionInfo } from '../types';
 
-interface Props extends DataSourcePluginOptionsEditorProps<DataSourceOptions> {}
+interface Props extends DataSourcePluginOptionsEditorProps<DataSourceOptions> { }
 
 export function ConfigEditor(props: Props) {
   const { onOptionsChange, options } = props;
@@ -25,10 +25,15 @@ export function ConfigEditor(props: Props) {
 
   // Secure field (only sent to the backend)
   const onSessionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    let tok = event.target.value
+    if (!atob(event.target.value).startsWith(':')) {
+      tok = btoa(":" + event.target.value)
+    }
+
     onOptionsChange({
       ...options,
       secureJsonData: {
-        sessionToken: event.target.value,
+        sessionToken: tok,
       },
     });
   };
@@ -52,11 +57,11 @@ export function ConfigEditor(props: Props) {
 
   return (
     <>
-    <FieldSet label="API Settings">
-      <InlineField label="API URL" labelWidth={20}>
+      <FieldSet label="API Settings">
+        <InlineField label="API URL" labelWidth={20}>
           <Input
             onChange={onApiUrlChange}
-            value={jsonData.apiURL || 'https://api.runreveal.com'}
+            value={jsonData.apiURL || 'https://www-api.runreveal.com'}
             placeholder="RunReveal API URL"
             readOnly
             width={40}
@@ -64,7 +69,7 @@ export function ConfigEditor(props: Props) {
         </InlineField>
 
         <InlineField label="Session Token" labelWidth={20}
-            tooltip="Session Token is your account authentication token, calls made to RunReveal will be made using the account this was generated from">
+          tooltip="Session Token is your account authentication token, calls made to RunReveal will be made using the account this was generated from">
           <SecretInput
             onChange={onSessionChange}
             onReset={onResetSessionToken}
