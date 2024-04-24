@@ -94,7 +94,7 @@ To trigger the workflow we need to push a version tag to github. This can be ach
 2. Update any files needed.
 3. Bump version number in the `package.json` file.
 4. Add a new section to the `CHANGELOG.md` file. This file is published with the plugin and is visible by people viewing our plugin.
-5. Once the PR is merged, the CI pipeline will auto tag the repo and a release will be started.
+5. Once the PR is merged, add a tag to the repo with the same name as the version `v#.#.#`.
 6. Upload the new release to grafana.com to get published.
 
 ## Learn more
@@ -104,3 +104,23 @@ Below you can find source code for existing app plugins and other related docume
 - [Basic data source plugin example](https://github.com/grafana/grafana-plugin-examples/tree/master/examples/datasource-basic#readme)
 - [Plugin.json documentation](https://grafana.com/docs/grafana/latest/developers/plugins/metadata/)
 - [How to sign a plugin?](https://grafana.com/docs/grafana/latest/developers/plugins/sign-a-plugin/)
+
+## Provisioning
+
+### PreSetup
+
+Get a testing workspace ID and generate an api key with the `analyst` role.
+
+Base64 encode the key (if not already done so) in the format `:<key>` where key is preceded by a colon.
+
+### Running the Provisioning File
+
+Run the following commands replacing `<workspace_id>` and `<session>` with their respective values.
+
+```bash
+export RRDS_WORKSPACE_ID=<workspace_id>
+export RRDS_SESSION_TOKEN=<session> 
+docker-compose up
+```
+
+This will set the environment variables needed to correctly spin up the docker instance and auto provision the datasource.

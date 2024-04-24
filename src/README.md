@@ -7,16 +7,36 @@ locally, please checkout the [Plugin installation docs](https://grafana.com/docs
 
 ## Configuration
 
-In order to use this data source you must have an account with *[RunReveal](https://runreveal.com)* that has a valid workspace.
-To setup an account and get authenticated follow the [getting started](https://docs.runreveal.com/getting-started/guides/quickstart) guide in the docs.
+In order to use this data source you must have an account with *[RunReveal](https://runreveal.com)* that has a valid workspace. Navigate to create an account and get started.
 
-Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need your session token and the workspace id of the workspace that you want to run queries against. To acquire this info you can use the *RunReveal* cli and run the following command:
+Once you have created your *RunReveal* account and installed the plugin you can configure the data source. You will need an api token and the workspace ID of the workspace that you want to run queries against. To acquire this info navigate to your RunReveal [settings page](https://runreveal.com/dash/settings).
 
-```bash
-runreveal config show --grafana
+### Provisioning
+
+If you are using Grafana's new provsioning files to configure the data source, the api key must be base64 encoded (if not already done so) in the format `:<key>` where key is preceded by a colon.
+
+Use the following example to set your provisioning file. 
+To configure the data source, use the environment variables `RRDS_WORKSPACE_ID` and `RRDS_SESSION_TOKEN` to set your workspace ID and the base64 encoded api key respectively.
+
+```yml
+apiVersion: 1
+deleteDatasources:
+  - name: RunReveal
+    orgId: 1
+datasources:
+  - orgId: 1
+    name: RunReveal
+    uid: 1
+    type: runreveal-runreveal-datasource
+    access: proxy
+    basicAuth: false
+    withCredentials: false
+    isDefault: true
+    jsonData:
+      workspaceId: ${RRDS_WORKSPACE_ID}
+    secureJsonData:
+      sessionToken: ${RRDS_SESSION_TOKEN}
 ```
-
-Use the printed values to fill in the configuration fields for the data source.
 
 ## Quick Start
 

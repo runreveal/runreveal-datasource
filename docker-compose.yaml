@@ -5,8 +5,12 @@ services:
     container_name: 'runreveal-runreveal-datasource'
     build:
       context: ./.config
+    environment:
+      - RRDS_WORKSPACE_ID=${RRDS_WORKSPACE_ID}
+      - RRDS_SESSION_TOKEN=${RRDS_SESSION_TOKEN}
     ports:
       - 3000:3000/tcp
     volumes:
       - ./dist:/var/lib/grafana/plugins/runreveal-runreveal-datasource
       - ./provisioning:/etc/grafana/provisioning
+      - ./testing-dashboards:/var/lib/grafana/dashboards

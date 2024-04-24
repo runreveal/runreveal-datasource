@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3
+
+* Supply necessary information to setup and use Grafana provisioning files.
+
 ## 0.3.0
 
 * Update auth flow to work with new RunReveal token format
